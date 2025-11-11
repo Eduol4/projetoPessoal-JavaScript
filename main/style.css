@@ -1,0 +1,39 @@
+body {
+    background-color: black;
+    color: white;
+}
+
+section {
+    border: solid;
+    border-color: white;
+}
+
+.botaoMenu {
+    background-color: black;
+    border: none;
+    color: white;
+    transition: all 0.3s ease;
+    font-size: 1.25rem;
+}
+.botaoMenu:hover {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+input {
+    background-color: black !important;
+    border: solid !important;
+    border-color: white !important;
+    color: white !important;
+}
+
+#secaoAjuda {
+  /* opacity: 0; */
+  /* max-height: 0; */
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+#secaoAjuda.mostrar {
+  opacity: 1;
+  /* max-height: 1000px; */
+}
