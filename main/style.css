@@ -27,13 +27,7 @@ input {
     color: white !important;
 }
 
-#secaoAjuda {
-  /* opacity: 0; */
-  /* max-height: 0; */
-  overflow: hidden;
-  transition: all 0.4s ease;
-}
-#secaoAjuda.mostrar {
-  opacity: 1;
-  /* max-height: 1000px; */
-}
+  /* #secaoAjuda {
+    overflow: hidden;
+    transition: all 0.35s ease;
+  } */
