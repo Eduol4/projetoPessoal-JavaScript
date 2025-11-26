@@ -8,6 +8,7 @@ const campoComando = document.getElementById("digiteComando");
 
 const btnVelociraptor = document.getElementById("btnVelociraptor");
 const btnSinosauropteryx = document.getElementById("btnSinosauropteryx");
+const btnBrontossauro = document.getElementById("btnBrontossauro");
 
 const elNomeDoAnimal = document.getElementById("nomeDoAnimal");
 const elDescricaoBasica = document.getElementById("descricaoBasica");
@@ -40,11 +41,11 @@ const animais = {
         dieta: "Carnívoro",
         reino: "Animalia",
         filo: "Chordata",
-        classe: "Reptilia (tradicional) / Dinosauria (clado)",
-        ordem: "Saurischia",
-        familia: "Dromaeosauridae",
+        classe: "Reptilia (tradicional) - Dinosauria (clado)",
+        ordem: "Saurischia - Theropoda (clado)",
+        familia: "Dromaeosauridae - Eudromaeosauria (clado) - Velociraptorinae (subfamília)",
         genero: "Velociraptor",
-        especie: "Velociraptor mongoliensis"
+        especie: "Velociraptor mongoliensis | Velociraptor osmolskae"
     },
     sinosauropteryx: {
         nomeDoAnimal: "Sinosauropteryx",
@@ -58,11 +59,29 @@ const animais = {
         dieta: "Carnívoro/Insectívoro",
         reino: "Animalia",
         filo: "Chordata",
-        classe: "Reptilia (tradicional) / Dinosauria (clado)",
-        ordem: "Saurischia",
-        familia: "Compsognathidae (associação comum)",
+        classe: "Reptilia (tradicional) - Dinosauria (clado)",
+        ordem: "Saurischia - Theropoda (clado)",
+        familia: "Compsognathidae)",
         genero: "Sinosauropteryx",
         especie: "Sinosauropteryx prima"
+    },
+    brontossauro: {
+        nomeDoAnimal: "Brontossauro",
+        descricaoBasica: "Um grande dinossauro herbívoro quadrúpede, conhecido por seu pescoço longo e cauda longa, que viveu durante o período Jurássico.",
+        era: "Mesozóica",
+        periodo: "Jurássico Superior",
+        regiao: "América do Norte",
+        altura: "cerca de 4,5 metros até o quadril",
+        comprimento: "aprox. 22 metros",
+        peso: "15-20 toneladas",
+        dieta: "Herbívoro",
+        reino: "Animalia",
+        filo: "Chordata",
+        classe: "Reptilia (tradicional) - Dinosauria (clado)",
+        ordem: "Saurischia - Sauropodomorpha (clado) - Sauropoda (clado)",
+        familia: "Diplodocoidea (Superfamília) - Diplodocidae (Família) - Apatosaurinae (Subfamília)",
+        genero: "Brontosaurus",
+        especie: "Apatosaurus excelsus | Brontosaurus parvus | Brontosaurus yahnahpin"
     }
 };
 
@@ -81,6 +100,9 @@ botaoAjuda.addEventListener("click", alternarAjuda);
 // SEÇÃO DE ANIMAIS DESBLOQUEADOS
 if(localStorage.getItem("sinosauropteryxDesbloqueado") === "true") {
     btnSinosauropteryx.style.display = "block";
+}
+if (localStorage.getItem("brontossauroDesbloqueado") === "true") {
+    btnBrontossauro.style.display = "block";
 }
 
 // SEÇÃO DE COMANDOS
@@ -101,6 +123,13 @@ campoComando.addEventListener("keydown", (event) => {
             secaoOpcao.style.display = "none";
         } else if(animais[comando]) {
             mostrarAnimal(comando);
+
+            if(comando === "brontossauro" && !localStorage.getItem("brontossauroDesbloqueado")) {
+                console.log("Novo animal descoberto: Brontossauro");
+                alert("Você desbloqueou um novo animal: Brontossauro!");
+                btnBrontossauro.style.display = "block";
+                localStorage.setItem("brontossauroDesbloqueado", "true");
+            }
         }
         campoComando.value = "";
     }
@@ -142,4 +171,7 @@ btnVelociraptor.addEventListener("click", () => {
 
 btnSinosauropteryx.addEventListener("click", () => {
     mostrarAnimal("sinosauropteryx");
+});
+btnBrontossauro.addEventListener("click", () => {
+    mostrarAnimal("brontossauro");
 });
