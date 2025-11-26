@@ -3,6 +3,8 @@ const botaoajuda = document.getElementById("btnAjuda");
 
 const secaoAjuda = document.getElementById("secaoAjuda");
 const secaoOpcao = document.getElementById("secaoOpcao");
+const paragrafoConquistas = document.getElementById("paragrafoConquistas");
+const secaoConquistas = document.getElementById("secaoConquistas");
 
 const campoComando = document.getElementById("digiteComando");
 
@@ -104,6 +106,10 @@ if(localStorage.getItem("sinosauropteryxDesbloqueado") === "true") {
 if (localStorage.getItem("brontossauroDesbloqueado") === "true") {
     btnBrontossauro.style.display = "block";
 }
+// SEÇÃO DE PARÁGRAFOS E COMANDOS DESBLOQUEADOS
+if (localStorage.getItem("paragrafoConquistasDesbloqueado") === "true") {
+    paragrafoConquistas.style.display = "block";
+}
 
 // SEÇÃO DE COMANDOS
 campoComando.addEventListener("keydown", (event) => {
@@ -129,7 +135,16 @@ campoComando.addEventListener("keydown", (event) => {
                 alert("Você desbloqueou um novo animal: Brontossauro!");
                 btnBrontossauro.style.display = "block";
                 localStorage.setItem("brontossauroDesbloqueado", "true");
+
+                console.log("Seção de conquistas desbloqueada");
+                alert("Você agora pode ver as conquistas!");
+                localStorage.setItem("paragrafoConquistasDesbloqueado", "true");
+                paragrafoConquistas.style.display = "block";
             }
+        } else if(comando === "reset" || comando === "reiniciar" || comando === "resetar") {
+            console.log("Local storage limpo.");
+            alert("Progresso reiniciado! Recarregue a página para aplicar as mudanças.");
+            localStorage.clear();
         }
         campoComando.value = "";
     }
