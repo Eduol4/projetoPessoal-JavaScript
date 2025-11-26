@@ -171,6 +171,7 @@ btnVelociraptor.addEventListener("click", () => {
 
 btnSinosauropteryx.addEventListener("click", () => {
     mostrarAnimal("sinosauropteryx");
+    console.log("Tente digitar o nome de um grande dinossauro herbívoro do Jurássico...");
 });
 btnBrontossauro.addEventListener("click", () => {
     mostrarAnimal("brontossauro");
