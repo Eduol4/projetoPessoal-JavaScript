@@ -15,7 +15,7 @@
             <h4>Aqui estão algumas de suas opções/comandos:</h4>
         </div>
         <div class="d-flex flex-column align-items-start mt-3" style="margin-left: 0.5rem;">
-            <button class="botaoMenu mb-0" id="btnAjuda">Ajuda</button>
+            <button class="botaoMenu mb-0" id="botaoAjuda">Ajuda</button>
             <button class="botaoMenu mb-0" id="btnVelociraptor">Velociraptor</button>
             <button class="botaoMenu mb-0" id="btnSinosauropteryx" style="display: none;">Sinosauropteryx</button>
         </div>
@@ -62,33 +62,34 @@
     <!-- SEÇÃO DOS ANIMAIS -->
     <section class="m-5 p-3" id="secaoOpcao" style="display: none;">
         <div class="d-flex justify-content-center">
-            <h3>{{nomeDoAnimal}}</h3>
+            <h3 id="nomeDoAnimal"></h3>
         </div>
         <div class="d-flex justify-content-center mb-3">
-            <h5>{{descricaoBasica}}</h5>
+            <h5 id="descricaoBasica"></h5>
         </div>
         <div class="d-flex justify-content-center flex-column">
-            <div class="d-flex justify-content-center">
+            <div class="text-center">
                 <h4>Informações básicas:</h4>
+                <p><strong>Era:</strong> <span id="era"></span></p>
+                <p><strong>Período:</strong> <span id="periodo"></span></p>
+                <p><strong>Região onde viveu:</strong> <span id="regiao"></span></p>
+                <p><strong>Altura:</strong> <span id="altura"></span></p>
+                <p><strong>Comprimento:</strong> <span id="comprimento"></span></p>
+                <p><strong>Peso:</strong> <span id="peso"></span></p>
+                <p><strong>Dieta:</strong> <span id="dieta"></span></p>
             </div>
-            <p><strong>Era:</strong> {{era}}</p>
-            <p><strong>Período:</strong> {{periodo}}</p>
-            <p><strong>Altura:</strong> {{altura}}</p>
-            <p><strong>Comprimento:</strong> {{comprimento}}</p>
-            <p><strong>Peso:</strong> {{peso}}</p>
-            <p><strong>Dieta:</strong> {{dieta}}</p>
         </div>
-        <div class="d-flex justify-content-center flex-column">
-            <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center flex-column mt-4">
+            <div class="text-center">
                 <h4>Taxonomia:</h4>
+                <p><strong>Reino:</strong> <span id="reino"></span></p>
+                <p><strong>Filo:</strong> <span id="filo"></span></p>
+                <p><strong>Classe:</strong> <span id="classe"></span></p>
+                <p><strong>Ordem:</strong> <span id="ordem"></span></p>
+                <p><strong>Família:</strong> <span id="familia"></span></p>
+                <p><strong>Gênero:</strong> <span id="genero"></span></p>
+                <p><strong>Espécie:</strong> <span id="especie"></span></p>
             </div>
-            <p><strong>Reino:</strong> {{reino}}</p>
-            <p><strong>Filo:</strong> {{filo}}</p>
-            <p><strong>Classe:</strong> {{classe}}</p>
-            <p><strong>Ordem:</strong> {{ordem}}</p>
-            <p><strong>Família:</strong> {{familia}}</p>
-            <p><strong>Gênero:</strong> {{genero}}</p>
-            <p><strong>Espécie:</strong> {{especie}}</p>
         </div>
         <div class="d-flex justify-content-center flex-column" id="informacoesAnimal">
             <div class="d-flex justify-content-center">

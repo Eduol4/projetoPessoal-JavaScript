@@ -7,3 +7,5 @@
 12.11.2025 -> Implementado o funcionamento da barra de pesquisa; Implementada a primeira opção desbloqueável;
 
 25.11.2025 -> Início do funcionamento das sessões dos animais;
+
+26.11.2025 -> Sessão dos animais incompleta, porém funcionando perfeitamente.
