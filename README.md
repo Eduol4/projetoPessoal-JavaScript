@@ -8,4 +8,4 @@
 
 25.11.2025 -> Início do funcionamento das sessões dos animais;
 
-26.11.2025 -> Sessão dos animais incompleta, porém funcionando perfeitamente. Adicionado mais um dinossauro secreto. Comando de conquistas e reset adicionados;
+26.11.2025 -> Sessão dos animais incompleta, porém funcionando perfeitamente. Adicionado mais um dinossauro secreto. Comando de conquistas e reset adicionados. Mecânica de contar a quantidade de animais desbloqueados adicionada;

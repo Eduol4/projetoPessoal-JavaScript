@@ -1,6 +1,8 @@
 // VARIÁVEIS
 const botaoajuda = document.getElementById("btnAjuda");
 
+let qtdAnimaisDesbloqueados = parseInt(localStorage.getItem("qtdAnimaisDesbloqueados") || "0", 10);
+
 const secaoAjuda = document.getElementById("secaoAjuda");
 const secaoOpcao = document.getElementById("secaoOpcao");
 const paragrafoConquistas = document.getElementById("paragrafoConquistas");
@@ -113,42 +115,71 @@ if (localStorage.getItem("paragrafoConquistasDesbloqueado") === "true") {
 
 // SEÇÃO DE COMANDOS
 campoComando.addEventListener("keydown", (event) => {
-    if(event.key === "Enter") {
+    if (event.key === "Enter") {
         const comando = (campoComando.value || '').trim().toLowerCase();
         if (comando === "ajuda") {
             secaoAjuda.style.display = "block";
+            secaoOpcao.style.display = "none";
 
-            if(!localStorage.getItem("sinosauropteryxDesbloqueado")) {
+            if (!localStorage.getItem("sinosauropteryxDesbloqueado")) {
                 console.log("Novo animal descoberto: Sinosauropteryx");
                 alert("Você desbloqueou um novo animal: Sinosauropteryx!");
-                btnSinosauropteryx.style.display = "block";
-                localStorage.setItem("sinosauropteryxDesbloqueado", "true");
+                desbloquearAnimal("sinosauropteryx", btnSinosauropteryx);
             }
-        } else if(comando === "sair") {
+
+        } else if (comando === "sair") {
             secaoAjuda.style.display = "none";
             secaoOpcao.style.display = "none";
-        } else if(animais[comando]) {
+
+        } else if (animais[comando]) {
             mostrarAnimal(comando);
 
-            if(comando === "brontossauro" && !localStorage.getItem("brontossauroDesbloqueado")) {
+            if (comando === "brontossauro" && !localStorage.getItem("brontossauroDesbloqueado")) {
                 console.log("Novo animal descoberto: Brontossauro");
                 alert("Você desbloqueou um novo animal: Brontossauro!");
-                btnBrontossauro.style.display = "block";
-                localStorage.setItem("brontossauroDesbloqueado", "true");
-
-                console.log("Seção de conquistas desbloqueada");
-                alert("Você agora pode ver as conquistas!");
-                localStorage.setItem("paragrafoConquistasDesbloqueado", "true");
-                paragrafoConquistas.style.display = "block";
+                desbloquearAnimal("brontossauro", btnBrontossauro);
             }
-        } else if(comando === "reset" || comando === "reiniciar" || comando === "resetar") {
-            console.log("Local storage limpo.");
-            alert("Progresso reiniciado! Recarregue a página para aplicar as mudanças.");
-            localStorage.clear();
+
+        } else if (comando === "reset" || comando === "reiniciar" || comando === "resetar") {
+            if (qtdAnimaisDesbloqueados >= 1) {
+                console.log("Local storage limpo.");
+                alert("Progresso reiniciado! Recarregue a página para aplicar as mudanças.");
+                localStorage.clear();
+            } else {
+                console.log("Comando 'reset' ainda não desbloqueado.");
+                alert("Você ainda não desbloqueou esse comando. Descubra algum animal primeiro!");
+            }
         }
+
         campoComando.value = "";
     }
 });
+
+// FUNÇÃO PARA DESBLOQUEAR ANIMAIS E PARÁGRAFOS
+function desbloquearAnimal(nome, botao) {
+    const chaveFlag = nome + "Desbloqueado";
+
+    // só conta se for a primeira vez
+    if (!localStorage.getItem(chaveFlag)) {
+        localStorage.setItem(chaveFlag, "true");
+        qtdAnimaisDesbloqueados++;
+        localStorage.setItem("qtdAnimaisDesbloqueados", String(qtdAnimaisDesbloqueados));
+    }
+
+    // mostra o botão do animal, se tiver
+    if (botao) {
+        botao.style.display = "block";
+    }
+
+    // se tiver pelo menos 2 animais desbloqueados → libera parágrafo de conquistas
+    if (qtdAnimaisDesbloqueados >= 2 && !localStorage.getItem("paragrafoConquistasDesbloqueado")) {
+        console.log("Parágrafo de conquistas desbloqueado.");
+        alert("Você desbloqueou a seção de conquistas!");
+        localStorage.setItem("paragrafoConquistasDesbloqueado", "true");
+        paragrafoConquistas.style.display = "block";
+    }
+}
+
 
 //SEÇÃO DOS ANIMAIS
 // PREENCHER OS DADOS DO ANIMAL
@@ -156,9 +187,7 @@ function mostrarAnimal(chave) {
     const animal = animais[chave.toLowerCase()];
     if (!animal) return; // se não existir, não faz nada
 
-    // garante que a ajuda some
     secaoAjuda.style.display = "none";
-    // mostra a seção de informações do animal
     secaoOpcao.style.display = "block";
 
     elNomeDoAnimal.innerText = animal.nomeDoAnimal;
