@@ -11,7 +11,7 @@
 <body>
     <section class="m-5 p-5">
         <div class="">
-            <h3>Olá! Aqui você pode aprender sobre algumas tópicos relacionados a palentologia.</h3>
+            <h3>Olá! Aqui você pode aprender sobre algumas tópicos relacionados a paleontologia.</h3>
             <h4>Aqui estão algumas de suas opções/comandos:</h4>
         </div>
         <div class="d-flex flex-column align-items-start mt-3" style="margin-left: 0.5rem;">
@@ -19,6 +19,7 @@
             <button class="botaoMenu mb-0" id="btnVelociraptor">Velociraptor</button>
             <button class="botaoMenu mb-0" id="btnSinosauropteryx" style="display: none;">Sinosauropteryx</button>
             <button class="botaoMenu mb-0" id="btnBrontossauro" style="display: none;">Brontossauro</button>
+            <button class="botaoMenu mb-0" id="btnSmilodon" style="display: none;">Dentes-de-sabre</button>
         </div>
 
         <div class="mt-5">
@@ -52,22 +53,66 @@
             <div class="d-flex justify-content-center">
                 <h4>COMANDOS:</h4>
             </div>
-            <p>"Ajuda" é apenas um dos possíveis comandos disponíveis para digitação na caixa de pesquisa.</p>
+            <p>Digitar "Ajuda" acessa essa caixa de texto tal como clicar no seu botão no menu acima.</p>
             <p>"Sair" pode ser digitado para fechar essa ou qualquer outra caixa de texto.</p>
+            <div id="paragrafoReset" style="display: none;">
+                <p>"Reset"/"Reiniciar"/"Resetar" pode ser digitado para apagar todos os comandos e animais desbloqueados e
+                    reiniciar o progresso do usuário.
+                </p>
+            </div>
             <div id="paragrafoConquistas" style="display: none;">
-                <p>"Conquistas" pode ser digitado para verificar todos os comandos e animais já desbloqueados, além de mostrar
+                <p>"Conquistas" pode ser digitado para verificar todos os animais já desbloqueados, além de mostrar
                     a quantidade total dos mesmos.
                 </p>
             </div>
+            <p>Sempre que algum comando novo for desbloqueado, lembre-se que você pode vir aqui pra descobrir como digitá-lo e para
+                que ele serve.
+            </p>
             <p>Existem alguns outros comandos e opções ocultas que o usuário pode descobrir com experimentação ou encontrando
                 "segredos" no console ou nas informações sobre diferentes animais.
             </p>
         </div>
     </section>
 
+    <!-- SEÇÃO DE CONQUISTAS -->
     <section class="m-5 p-3" id="secaoConquistas" style="display: none;">
         <div class="d-flex justify-content-center">
-            <h3>A SESSÃO DE CONQUISTAS AINDA ESTÁ EM DESENVOLVIMENTO</h3>
+            <h3>CONQUISTAS</h3>
+        </div>
+        <div class="d-flex justify-content-evenly">
+            <div>
+                <h4>Animais do Paleozóico</h4>
+                <h5>Animais desbloqueados:
+                    <span id="paleoDesbloqueadosQtd">0</span>
+                </h5>
+                <ul id="paleoDesbloqueadosLista">
+                </ul>
+                <h5>Animais restantes:
+                    <span id="paleoRestantesQtd">0</span>
+                </h5>
+            </div>
+            <div>
+                <h4>Animais do Mesozóico</h4>
+                <h5>Animais desbloqueados:
+                    <span id="mesoDesbloqueadosQtd">0</span>
+                </h5>
+                <ul id="mesoDesbloqueadosLista">
+                </ul>
+                <h5>Animais restantes:
+                    <span id="mesoRestantesQtd">0</span>
+                </h5>
+            </div>
+            <div>
+                <h4>Animais do Cenozóico</h4>
+                <h5>Animais desbloqueados:
+                    <span id="cenoDesbloqueadosQtd">0</span>
+                </h5>
+                <ul id="cenoDesbloqueadosLista">
+                </ul>
+                <h5>Animais restantes:
+                    <span id="cenoRestantesQtd">0</span>
+                </h5>
+            </div>
         </div>
     </section>
 
