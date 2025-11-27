@@ -10,4 +10,4 @@
 
 26.11.2025 -> Seção dos animais incompleta, porém funcionando perfeitamente. Adicionado mais um dinossauro secreto. Comando de conquistas e reset adicionados. Mecânica de contar a quantidade de animais desbloqueados adicionada;
 
-27.11.2025 -> Seção e comando de conquistas funcionando. Contagem e listagem de espécies desbloqueadas e a serem desbloqueadas funcionando. Comando de reset aperfeiçoado.
+27.11.2025 -> Seção e comando de conquistas funcionando. Contagem e listagem de espécies desbloqueadas e a serem desbloqueadas funcionando. Comando de reset aperfeiçoado. Seção de conquistas agora lista a quantidade total de animais de cada categoria;

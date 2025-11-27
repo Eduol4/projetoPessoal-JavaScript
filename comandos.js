@@ -235,6 +235,7 @@ function atualizarConquistas() {
         paleozoico: {
             total: 0,
             desbloqueados: [],
+            elQtdTotal: document.getElementById("paleoTotalQtd"),
             elQtdDesbloqueados: document.getElementById("paleoDesbloqueadosQtd"),
             elQtdRestantes: document.getElementById("paleoRestantesQtd"),
             elListaDesbloqueados: document.getElementById("paleoDesbloqueadosLista")
@@ -242,6 +243,7 @@ function atualizarConquistas() {
         mesozoico: {
             total: 0,
             desbloqueados: [],
+            elQtdTotal: document.getElementById("mesoTotalQtd"),
             elQtdDesbloqueados: document.getElementById("mesoDesbloqueadosQtd"),
             elQtdRestantes: document.getElementById("mesoRestantesQtd"),
             elListaDesbloqueados: document.getElementById("mesoDesbloqueadosLista")
@@ -249,6 +251,7 @@ function atualizarConquistas() {
         cenozoico: {
             total: 0,
             desbloqueados: [],
+            elQtdTotal: document.getElementById("cenoTotalQtd"),
             elQtdDesbloqueados: document.getElementById("cenoDesbloqueadosQtd"),
             elQtdRestantes: document.getElementById("cenoRestantesQtd"),
             elListaDesbloqueados: document.getElementById("cenoDesbloqueadosLista")
@@ -280,6 +283,9 @@ function atualizarConquistas() {
         const desbloq = grupo.desbloqueados.length;
         const restantes = total - desbloq;
 
+        if (grupo.elQtdTotal) {
+            grupo.elQtdTotal.textContent = String(total);
+        }
         if (grupo.elQtdDesbloqueados) {
             grupo.elQtdDesbloqueados.textContent = String(desbloq);
         }
