@@ -170,26 +170,26 @@ if (localStorage.getItem("paragrafoConquistasDesbloqueado") === "true") {
 }
 
 // FUNÇÃO DE COMANDOS
-campoComando.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-        const comando = (campoComando.value || '').trim().toLowerCase();
-        if (comando === "ajuda") {
+campoComando.addEventListener("keydown", (event) => { // "Escuta" a tecla pressionada no campo de comando
+    if (event.key === "Enter") { // O código só roda o código se o usuário pressionar Enter
+        const comando = (campoComando.value || '').trim().toLowerCase(); // Lê, limpa e normaliza o comando (tudo que for digitado será interpretado e normalizados com letras minúsculas)
+        if (comando === "ajuda") { // Se o comando for "ajuda", a seção ajuda será mostrada e um Sinosauropteryx será desbloqueado
             secaoAjuda.style.display = "block";
             secaoOpcao.style.display = "none";
 
-            if (!localStorage.getItem("sinosauropteryxDesbloqueado")) {
+            if (!localStorage.getItem("sinosauropteryxDesbloqueado")) { // Verifica se o usuário já tem o Sinosauropteryx desbloqueado, caso ele não tenha, será executado o código abaixo
                 console.log("Novo animal descoberto: Sinosauropteryx");
                 alert("Você desbloqueou um novo animal: Sinosauropteryx!");
                 desbloquearAnimal("sinosauropteryx", btnSinosauropteryx);
             }
 
-        } else if (comando === "sair") {
+        } else if (comando === "sair") { // Se o comando for "sair", todas as caixas de texto serão fechadas
             secaoAjuda.style.display = "none";
             secaoOpcao.style.display = "none";
             secaoConquistas.style.display = "none";
 
-        } else if (comando === "reset" || comando === "reiniciar" || comando === "resetar") {
-            if (localStorage.getItem("paragrafoResetDesbloqueado") === "true") {
+        } else if (comando === "reset" || comando === "reiniciar" || comando === "resetar") { // Se o comando for "reset", "reiniciar" ou "resetar", todo o localStorage será limpo
+            if (localStorage.getItem("paragrafoResetDesbloqueado") === "true") { // Apenas vai funcionar se o usuário já tiver desbloqueado o comando em questão
                 console.log("Local storage limpo.");
                 alert("Progresso reiniciado! Recarregue a página para aplicar as mudanças.");
                 localStorage.clear();
@@ -267,7 +267,7 @@ function desbloquearAnimal(nome, botao) {
         botao.style.display = "block";
     }
 
-    // se tiver pelo menos 1 animal desbloqueado → libera parágrafo de reset
+    // se tiver pelo menos 1 animal desbloqueado -> libera parágrafo de reset
     if (qtdAnimaisDesbloqueados >= 1 && !localStorage.getItem("paragrafoResetDesbloqueado")) {
         console.log("Parágrafo de reset desbloqueado.");
         alert("Você desbloqueou o comando reset!");
@@ -275,7 +275,7 @@ function desbloquearAnimal(nome, botao) {
         paragrafoReset.style.display = "block";
     }
     
-    // se tiver pelo menos 2 animais desbloqueados → libera parágrafo/seção de conquistas
+    // se tiver pelo menos 2 animais desbloqueados -> libera parágrafo/seção de conquistas
     if (qtdAnimaisDesbloqueados >= 2 && !localStorage.getItem("secaoConquistasDesbloqueado")) {
         console.log("Parágrafo/Seção de conquistas desbloqueado.");
         alert("Você desbloqueou a seção de conquistas!");
