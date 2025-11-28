@@ -1,20 +1,30 @@
-// VARIÁVEIS
+// VARIÁVEL DO BOTÃO DE AJUDA
 const botaoajuda = document.getElementById("btnAjuda");
 
+// CONTADOR DE ANIMAIS DESBLOQUEADOS
 let qtdAnimaisDesbloqueados = parseInt(localStorage.getItem("qtdAnimaisDesbloqueados") || "0", 10);
 
+//VARIÁVEIS DE SEÇÕES E PARÁGRAFOS
 const secaoAjuda = document.getElementById("secaoAjuda");
 const secaoOpcao = document.getElementById("secaoOpcao");
 const paragrafoReset = document.getElementById("paragrafoReset");
 const paragrafoConquistas = document.getElementById("paragrafoConquistas");
 const secaoConquistas = document.getElementById("secaoConquistas");
 
+// VARIÁVEIS DE ERROS
+const erroMsg = document.getElementById("erro");
+const erroMsg2 = document.getElementById("erro2");
+let erroTimeout = null;
+
+// VARIÁVEL DE DIGITAÇÃO
 const campoComando = document.getElementById("digiteComando");
 
+// BOTÕES DOS ANIMAIS
 const btnVelociraptor = document.getElementById("btnVelociraptor");
 const btnSinosauropteryx = document.getElementById("btnSinosauropteryx");
 const btnBrontossauro = document.getElementById("btnBrontossauro");
 
+// VARIÁVEIS DAS INFORMAÇÕES DOS ANIMAIS
 const elNomeDoAnimal = document.getElementById("nomeDoAnimal");
 const elDescricaoBasica = document.getElementById("descricaoBasica");
 const elEra = document.getElementById("era");
@@ -31,6 +41,9 @@ const elOrdem = document.getElementById("ordem");
 const elFamilia = document.getElementById("familia");
 const elGenero = document.getElementById("genero");
 const elEspecie = document.getElementById("especie");
+const elDataDescoberta = document.getElementById("dataDescoberta");
+const elDescobridor = document.getElementById("descobridor");
+const elFormacao = document.getElementById("formacao");
 
 // OBJETOS DOS ANIMAIS
 const animais = {
@@ -40,7 +53,7 @@ const animais = {
         nomeDoAnimal: "Velociraptor",
         descricaoBasica: "Um pequeno terópode carnívoro, ágil e (possivelmente) inteligente, famoso por suas garras em forma de foice.",
         era: "Mesozoico",
-        periodo: "Cretáceo Superior",
+        periodo: "Cretáceo Superior (84-85 milhões de anos atrás)",
         regiao: "Ásia Central (atual Mongólia e China)",
         altura: "cerca de 0,5 metros até o quadril",
         comprimento: "aprox. 2 metros",
@@ -52,14 +65,17 @@ const animais = {
         ordem: "Saurischia - Theropoda (clado)",
         familia: "Dromaeosauridae - Eudromaeosauria (clado) - Velociraptorinae (subfamília)",
         genero: "Velociraptor",
-        especie: "Velociraptor mongoliensis | Velociraptor osmolskae"
+        especie: "Velociraptor mongoliensis | Velociraptor osmolskae",
+        dataDescoberta: "11 de agosto de 1924",
+        descobridor: "Peter Kaisen",
+        formacao: "Formação Djadochta, Deserto de Gobi, Mongólia"
     },
     sinosauropteryx: {
         eraCategoria: "mesozoico",
         nomeDoAnimal: "Sinosauropteryx",
         descricaoBasica: "Um pequeno dinossauro terópode coberto por penas simples, conhecido por ser o primeiro dinossauro não aviário descoberto com evidências claras de plumagem.",
         era: "Mesozoico",
-        periodo: "Cretáceo Inferior",
+        periodo: "Cretáceo Inferior (124,6-122 milhões de anos atrás)",
         regiao: "China (província de Liaoning)",
         altura: "aprox. 0,3-0,4 metros até o quadril",
         comprimento: "cerca de 1 metro",
@@ -69,16 +85,19 @@ const animais = {
         filo: "Chordata",
         classe: "Reptilia (tradicional) - Dinosauria (clado)",
         ordem: "Saurischia - Theropoda (clado)",
-        familia: "Compsognathidae)",
+        familia: "Compsognathidae",
         genero: "Sinosauropteryx",
-        especie: "Sinosauropteryx prima"
+        especie: "Sinosauropteryx prima - Sinosauropteryx lingyuanensis",
+        dataDescoberta: "Agosto de 1996",
+        descobridor: "Li Yumin",
+        formacao: "Formação Yixian, Província de Liaoning, China"
     },
     brontossauro: {
         eraCategoria: "mesozoico",
         nomeDoAnimal: "Brontossauro",
-        descricaoBasica: "Um grande dinossauro herbívoro, conhecido por seu pescoço longo e cauda longa, que viveu durante o período Jurássico.",
+        descricaoBasica: "Um grande dinossauro herbívoro, conhecido por seu pescoço longo e cauda longa, que viveu durante o final do período Jurássico.",
         era: "Mesozoico",
-        periodo: "Jurássico Superior",
+        periodo: "Jurássico Superior (156,3-146,8 milhões de anos atrás)",
         regiao: "América do Norte",
         altura: "cerca de 4,5 metros até o quadril",
         comprimento: "aprox. 22 metros",
@@ -90,7 +109,10 @@ const animais = {
         ordem: "Saurischia - Sauropodomorpha (clado) - Sauropoda (clado)",
         familia: "Diplodocoidea (Superfamília) - Diplodocidae (Família) - Apatosaurinae (Subfamília)",
         genero: "Brontosaurus",
-        especie: "Apatosaurus excelsus | Brontosaurus parvus | Brontosaurus yahnahpin"
+        especie: "Apatosaurus excelsus | Brontosaurus parvus | Brontosaurus yahnahpin",
+        dataDescoberta: "1879",
+        descobridor: "Othniel Charles Marsh",
+        formacao: "Formação Morrison, Estados Unidos"
     },
     // CENOZÓICO
     smilodon: {
@@ -98,7 +120,7 @@ const animais = {
         nomeDoAnimal: "Dentes-de-sabre",
         descricaoBasica: "Um grande felino conhecido por seus longos caninos superiores em forma de sabre, que viveu durante o Pleistoceno.",
         era: "Cenozoico",
-        periodo: "Pleistoceno inferior - Holoceno inferior",
+        periodo: "Pleistoceno inferior - Holoceno inferior (2,5 milhões e 10 mil anos atrás)",
         regiao: "América do Norte e América do Sul",
         altura: "cerca de 1 metro até os ombros",
         comprimento: "aprox. 1,5-2 metros",
@@ -110,12 +132,14 @@ const animais = {
         ordem: "Carnivora",
         familia: "Felidae - Machairodontinae (Subfamília) - Smilodontini (Tribo)",
         genero: "Smilodon",
-        especie: "Smilodon fatalis | Smilodon populator | Smilodon gracilis"
+        especie: "Smilodon fatalis | Smilodon populator | Smilodon gracilis",
+        dataDescoberta: "1830 - 1869 - 1880",
+        descobridor: "Peter Wilhelm Lund - Joseph Leidy - Edward Drinker Cope",
+        formacao: "Lagoa Santa, Brasil - La Brea, Estados Unidos - Caverna Port Kennedy, Estados Unidos"
     }
 };
 
-// SEÇÃO DE AJUDA
-// 1. BOTÃO DE "AJUDA"
+// BOTÃO DE "AJUDA"
 function alternarAjuda() {
     if (secaoAjuda.style.display === "none" || secaoAjuda.style.display === "") {
         secaoAjuda.style.display = "block";
@@ -145,7 +169,7 @@ if (localStorage.getItem("paragrafoConquistasDesbloqueado") === "true") {
     paragrafoConquistas.style.display = "block";
 }
 
-// SEÇÃO DE COMANDOS
+// FUNÇÃO DE COMANDOS
 campoComando.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
         const comando = (campoComando.value || '').trim().toLowerCase();
@@ -170,8 +194,8 @@ campoComando.addEventListener("keydown", (event) => {
                 alert("Progresso reiniciado! Recarregue a página para aplicar as mudanças.");
                 localStorage.clear();
             } else {
-                console.log("Comando 'reset' ainda não desbloqueado.");
-                alert("Você ainda não desbloqueou esse comando. Descubra algum animal primeiro!");
+                console.log("Descubra pelo menos um animal para desbloquear esse comando.");
+                mostrarErro2();
             }
         } else if (comando === "conquistas") {
             if (localStorage.getItem("paragrafoConquistasDesbloqueado") === "true" && localStorage.getItem("secaoConquistasDesbloqueado") === "true") {
@@ -179,24 +203,56 @@ campoComando.addEventListener("keydown", (event) => {
                 secaoConquistas.style.display = "block";
                 secaoOpcao.style.display = "none";
                 secaoAjuda.style.display = "none";
+            } else {
+                console.log("Você precisa descobrir mais animais para desbloquear esse comando.");
+                mostrarErro2();
             }
-        }
-        
-        else if (animais[comando]) {
-            mostrarAnimal(comando);
+        } else if (animais[comando]) {
+            const chaveFlag = comando + "Desbloqueado";
+            const jaDesbloqueado = localStorage.getItem(chaveFlag) === "true";
 
-            if (comando === "brontossauro" && !localStorage.getItem("brontossauroDesbloqueado")) {
-                console.log("Novo animal descoberto: Brontossauro");
-                alert("Você desbloqueou um novo animal: Brontossauro!");
-                desbloquearAnimal("brontossauro", btnBrontossauro);
+            const sempreDisponivel = (comando === "velociraptor" || comando === "brontossauro");
+
+            if (!jaDesbloqueado && !sempreDisponivel) {
+                mostrarErro2();
+            } else {
+                mostrarAnimal(comando);
+
+                if (comando === "brontossauro" && !jaDesbloqueado) {
+                    console.log("Novo animal descoberto: Brontossauro");
+                    alert("Você desbloqueou um novo animal: Brontossauro!");
+                    desbloquearAnimal("brontossauro", btnBrontossauro);
+                }
             }
+        } else {
+            mostrarErro();
         }
 
         campoComando.value = "";
     }
 });
 
-// FUNÇÃO PARA DESBLOQUEAR ANIMAIS E PARÁGRAFOS
+// FUNÇÃO DE MENSAGENS DE ERRO
+// ERRO DE DIGITAÇÃO/COMANDO OU ANIMAL NÃO EXISTE
+function mostrarErro() {
+    if (erroTimeout) clearTimeout(erroTimeout);
+    erroMsg.style.display = "block";
+
+    erroTimeout = setTimeout(() => {
+        erroMsg.style.display = "none";
+    }, 5000);
+}
+// ANIMAL OU COMANDO AINDA NÃO DESBLOQUEADO DIGITADO
+function mostrarErro2() {
+    if (erroTimeout) clearTimeout(erroTimeout);
+    erroMsg2.style.display = "block";
+
+    erroTimeout = setTimeout(() => {
+        erroMsg2.style.display = "none";
+    }, 5000);
+}
+
+// FUNÇÃO PARA DESBLOQUEAR ANIMAIS E COMANDOS
 function desbloquearAnimal(nome, botao) {
     const chaveFlag = nome + "Desbloqueado";
 
@@ -311,7 +367,6 @@ function atualizarConquistas() {
     });
 }
 
-//SEÇÃO DOS ANIMAIS
 // PREENCHER OS DADOS DO ANIMAL
 function mostrarAnimal(chave) {
     const animal = animais[chave.toLowerCase()];
@@ -336,6 +391,9 @@ function mostrarAnimal(chave) {
     elFamilia.innerText = animal.familia;
     elGenero.innerText = animal.genero;
     elEspecie.innerText = animal.especie;
+    elDataDescoberta.innerText = animal.dataDescoberta;
+    elDescobridor.innerText = animal.descobridor;
+    elFormacao.innerText = animal.formacao;
 }
 
 // BOTÕES DOS ANIMAIS
@@ -345,7 +403,7 @@ btnVelociraptor.addEventListener("click", () => {
 btnSinosauropteryx.addEventListener("click", () => {
     mostrarAnimal("sinosauropteryx");
     if(!localStorage.getItem("brontossauroDesbloqueado")) {
-        console.log("Tente digitar o nome de um grande dinossauro herbívoro do Jurássico...");
+        console.log("Tente digitar o nome de um grande dinossauro herbívoro do Jurássico");
     }
 });
 btnBrontossauro.addEventListener("click", () => {

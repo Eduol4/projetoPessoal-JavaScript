@@ -26,8 +26,6 @@ input {
     border-color: white !important;
     color: white !important;
 }
-
-  /* #secaoAjuda {
-    overflow: hidden;
-    transition: all 0.35s ease;
-  } */
+.erro {
+    color: rgb(252, 24, 24);
+}
