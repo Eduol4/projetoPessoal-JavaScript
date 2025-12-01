@@ -23,6 +23,10 @@ const campoComando = document.getElementById("digiteComando");
 const btnVelociraptor = document.getElementById("btnVelociraptor");
 const btnSinosauropteryx = document.getElementById("btnSinosauropteryx");
 const btnBrontossauro = document.getElementById("btnBrontossauro");
+const btnSmilodon = document.getElementById("btnSmilodon");
+
+// VARIÁVEIS EXTRAS SOBRE DESBLOQUEIOS DE ANIMAIS
+let smilodonIntervalId = null;
 
 // VARIÁVEIS DAS INFORMAÇÕES DOS ANIMAIS
 const elNomeDoAnimal = document.getElementById("nomeDoAnimal");
@@ -99,7 +103,7 @@ const animais = {
         era: "Mesozoico",
         periodo: "Jurássico Superior (156,3-146,8 milhões de anos atrás)",
         regiao: "América do Norte",
-        altura: "aprox. 8-10 metros (podia ser maior dependendo da posição do pescoço)",
+        altura: "aprox. 8-10 metros (pode ser maior dependendo da posição do pescoço)",
         comprimento: "aprox. 22 metros",
         peso: "15-20 toneladas",
         dieta: "Herbívoro",
@@ -117,7 +121,7 @@ const animais = {
     // CENOZÓICO
     smilodon: {
         eraCategoria: "cenozoico",
-        nomeDoAnimal: "Dentes-de-sabre",
+        nomeDoAnimal: "Smilodon",
         descricaoBasica: "Um grande felino conhecido por seus longos caninos superiores em forma de sabre, que foi contemporâneo com os seres humanos.",
         era: "Cenozoico",
         periodo: "Pleistoceno inferior - Holoceno inferior (2,5 milhões e 10 mil anos atrás)",
@@ -139,6 +143,9 @@ const animais = {
     }
 };
 
+// CASO O JOGADOR JÁ TENHA UM ANIMAL DESBLOQUEADO, O SORTEIO CONTINUA VALENDO MESMO APÓS RECARREGAR A PÁGINA
+iniciarTimerSmilodon();
+
 // BOTÃO DE "AJUDA"
 function alternarAjuda() {
     if (secaoAjuda.style.display === "none" || secaoAjuda.style.display === "") {
@@ -151,7 +158,7 @@ function alternarAjuda() {
 botaoAjuda.addEventListener("click", alternarAjuda);
 
 // SEÇÃO DE ANIMAIS DESBLOQUEADOS
-localStorage.setItem("velociraptorDesbloqueado", "true"); // sempre desbloqueado
+localStorage.setItem("velociraptorDesbloqueado", "true"); // Sempre desbloqueado
 if (localStorage.getItem("sinosauropteryxDesbloqueado") === "true") {
     btnSinosauropteryx.style.display = "block";
 }
@@ -273,6 +280,10 @@ function desbloquearAnimal(nome, botao) {
         localStorage.setItem("paragrafoResetDesbloqueado", "true");
         paragrafoReset.style.display = "block";
     }
+
+    if (qtdAnimaisDesbloqueados >= 1) {
+        iniciarTimerSmilodon();
+    }
     
     // Se tiver pelo menos 2 animais desbloqueados -> libera parágrafo/seção/comando de conquistas
     if (qtdAnimaisDesbloqueados >= 2 && !localStorage.getItem("secaoConquistasDesbloqueado")) {
@@ -371,6 +382,27 @@ function atualizarConquistas() {
     });
 }
 
+function iniciarTimerSmilodon() {
+    const jaDesbloqueado = localStorage.getItem("smilodonDesbloqueado") === "true";
+    if (jaDesbloqueado) return;
+
+    if (qtdAnimaisDesbloqueados < 1) return;
+    if (smilodonIntervalId !== null) return;
+
+    smilodonIntervalId = setInterval(() => {
+        const chance = Math.random();
+
+        if (chance < 1/20) {
+            console.log("Novo animal descoberto: Smilodon");
+            alert("Você desbloqueou um novo animal: Smilodon!");
+            desbloquearAnimal("smilodon", btnSmilodon);
+
+            clearInterval(smilodonIntervalId);
+            smilodonIntervalId = null;
+        }
+    }, 1000);
+}
+
 // PREENCHER OS DADOS DO ANIMAL
 function mostrarAnimal(chave) {
     const animal = animais[chave.toLowerCase()];
@@ -413,3 +445,6 @@ btnSinosauropteryx.addEventListener("click", () => {
 btnBrontossauro.addEventListener("click", () => {
     mostrarAnimal("brontossauro");
 });
+btnSmilodon.addEventListener("click", () => {
+    mostrarAnimal("smilodon");
+})
