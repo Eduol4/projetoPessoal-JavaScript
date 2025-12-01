@@ -55,7 +55,7 @@ const animais = {
         era: "Mesozoico",
         periodo: "Cretáceo Superior (84-85 milhões de anos atrás)",
         regiao: "Ásia Central (atual Mongólia e China)",
-        altura: "cerca de 0,5 metros até o quadril",
+        altura: "aprox. 1 metro",
         comprimento: "aprox. 2 metros",
         peso: "15-20 kg",
         dieta: "Carnívoro",
@@ -77,8 +77,8 @@ const animais = {
         era: "Mesozoico",
         periodo: "Cretáceo Inferior (124,6-122 milhões de anos atrás)",
         regiao: "China (província de Liaoning)",
-        altura: "aprox. 0,3-0,4 metros até o quadril",
-        comprimento: "cerca de 1 metro",
+        altura: "aprox. 0,3-0,4 metros (30-40 centímetros)",
+        comprimento: "aprox. 1 metro",
         peso: "2-5 kg",
         dieta: "Carnívoro/Insectívoro",
         reino: "Animalia",
@@ -99,7 +99,7 @@ const animais = {
         era: "Mesozoico",
         periodo: "Jurássico Superior (156,3-146,8 milhões de anos atrás)",
         regiao: "América do Norte",
-        altura: "cerca de 4,5 metros até o quadril",
+        altura: "aprox. 8-10 metros (podia ser maior dependendo da posição do pescoço)",
         comprimento: "aprox. 22 metros",
         peso: "15-20 toneladas",
         dieta: "Herbívoro",
@@ -122,9 +122,9 @@ const animais = {
         era: "Cenozoico",
         periodo: "Pleistoceno inferior - Holoceno inferior (2,5 milhões e 10 mil anos atrás)",
         regiao: "América do Norte e América do Sul",
-        altura: "cerca de 1 metro até os ombros",
-        comprimento: "aprox. 1,5-2 metros",
-        peso: "160-280 kg",
+        altura: "aprox. 1,20 metros até os ombros",
+        comprimento: "aprox. 2 metros",
+        peso: "220-436 kg",
         dieta: "Carnívoro",
         reino: "Animalia",
         filo: "Chordata",
@@ -132,9 +132,9 @@ const animais = {
         ordem: "Carnivora",
         familia: "Felidae - Machairodontinae (Subfamília) - Smilodontini (Tribo)",
         genero: "Smilodon",
-        especie: "Smilodon fatalis | Smilodon populator | Smilodon gracilis",
-        dataDescoberta: "1830 - 1869 - 1880",
-        descobridor: "Peter Wilhelm Lund - Joseph Leidy - Edward Drinker Cope",
+        especie: "Smilodon populator | Smilodon fatalis | Smilodon gracilis",
+        dataDescoberta: "1837",
+        descobridor: "Peter Wilhelm Lund",
         formacao: "Lagoa Santa, Brasil - La Brea, Estados Unidos - Caverna Port Kennedy, Estados Unidos"
     }
 };
@@ -197,9 +197,9 @@ campoComando.addEventListener("keydown", (event) => { // "Escuta" a tecla pressi
                 console.log("Descubra pelo menos um animal para desbloquear esse comando.");
                 mostrarErro2();
             }
-        } else if (comando === "conquistas") {
-            if (localStorage.getItem("paragrafoConquistasDesbloqueado") === "true" && localStorage.getItem("secaoConquistasDesbloqueado") === "true") {
-                atualizarConquistas();
+        } else if (comando === "conquistas" || comando == "conquista") { // Se o camando for "conquistas", serão mostradas todos os animais bloqueados e já desbloqueados
+            if (localStorage.getItem("paragrafoConquistasDesbloqueado") === "true" && localStorage.getItem("secaoConquistasDesbloqueado") === "true") { // Apenas vai funcionar se o usuário já tiver desbloquado o comando em questão
+                atualizarConquistas(); // Chama a função que atualiza as conquistas
                 secaoConquistas.style.display = "block";
                 secaoOpcao.style.display = "none";
                 secaoAjuda.style.display = "none";
@@ -207,18 +207,18 @@ campoComando.addEventListener("keydown", (event) => { // "Escuta" a tecla pressi
                 console.log("Você precisa descobrir mais animais para desbloquear esse comando.");
                 mostrarErro2();
             }
-        } else if (animais[comando]) {
+        } else if (animais[comando]) { // Verifica se o comando for um animal qualquer (que exista no projeto)
             const chaveFlag = comando + "Desbloqueado";
-            const jaDesbloqueado = localStorage.getItem(chaveFlag) === "true";
+            const jaDesbloqueado = localStorage.getItem(chaveFlag) === "true"; // Atribui a informação do animal estar desbloqueado a uma variável
 
-            const sempreDisponivel = (comando === "velociraptor" || comando === "brontossauro");
+            const sempreDisponivel = (comando === "velociraptor" || comando === "brontossauro"); // Define quais animais estarão sempre disponíveis
 
-            if (!jaDesbloqueado && !sempreDisponivel) {
+            if (!jaDesbloqueado && !sempreDisponivel) { // Se o animal ainda não foi desbloqueado ou não for sempre disponível, retorna erro
                 mostrarErro2();
-            } else {
-                mostrarAnimal(comando);
+            } else { // Caso contrário, será mostrada a caixa de informações do animal em questão
+                mostrarAnimal(comando); // Mostra a caixa de informações do animal
 
-                if (comando === "brontossauro" && !jaDesbloqueado) {
+                if (comando === "brontossauro" && !jaDesbloqueado) { // Se o comando digitado for "Brontossauro" e se ele ainda não estiver desbloqueado, esse código abaixo será executado
                     console.log("Novo animal descoberto: Brontossauro");
                     alert("Você desbloqueou um novo animal: Brontossauro!");
                     desbloquearAnimal("brontossauro", btnBrontossauro);
@@ -228,7 +228,7 @@ campoComando.addEventListener("keydown", (event) => { // "Escuta" a tecla pressi
             mostrarErro();
         }
 
-        campoComando.value = "";
+        campoComando.value = ""; // Após a execução de um comando, a barra de digitação é limpa
     }
 });
 
@@ -370,7 +370,7 @@ function atualizarConquistas() {
 // PREENCHER OS DADOS DO ANIMAL
 function mostrarAnimal(chave) {
     const animal = animais[chave.toLowerCase()];
-    if (!animal) return; // se não existir, não faz nada
+    if (!animal) return; // SE O ANIMAL NÃO EXISTIR, NADA ACONTECE
 
     secaoAjuda.style.display = "none";
     secaoOpcao.style.display = "block";
