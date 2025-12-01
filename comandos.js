@@ -109,7 +109,7 @@ const animais = {
         ordem: "Saurischia - Sauropodomorpha (clado) - Sauropoda (clado)",
         familia: "Diplodocoidea (Superfamília) - Diplodocidae (Família) - Apatosaurinae (Subfamília)",
         genero: "Brontosaurus",
-        especie: "Apatosaurus excelsus | Brontosaurus parvus | Brontosaurus yahnahpin",
+        especie: "Brontosaurus excelsus | Brontosaurus parvus | Brontosaurus yahnahpin",
         dataDescoberta: "1879",
         descobridor: "Othniel Charles Marsh",
         formacao: "Formação Morrison, Estados Unidos"
@@ -118,7 +118,7 @@ const animais = {
     smilodon: {
         eraCategoria: "cenozoico",
         nomeDoAnimal: "Dentes-de-sabre",
-        descricaoBasica: "Um grande felino conhecido por seus longos caninos superiores em forma de sabre, que viveu durante o Pleistoceno.",
+        descricaoBasica: "Um grande felino conhecido por seus longos caninos superiores em forma de sabre, que foi contemporâneo com os seres humanos.",
         era: "Cenozoico",
         periodo: "Pleistoceno inferior - Holoceno inferior (2,5 milhões e 10 mil anos atrás)",
         regiao: "América do Norte e América do Sul",
@@ -256,10 +256,9 @@ function mostrarErro2() {
 function desbloquearAnimal(nome, botao) {
     const chaveFlag = nome + "Desbloqueado";
 
-    // só conta se for a primeira vez
-    if (!localStorage.getItem(chaveFlag)) {
+    if (!localStorage.getItem(chaveFlag)) { // Se o animal dentro de chaveFlag ainda não foi desbloqueado, roda esse código
         localStorage.setItem(chaveFlag, "true");
-        qtdAnimaisDesbloqueados++;
+        qtdAnimaisDesbloqueados++; // Adiciona mais um animal desbloqueado para a contagem
         localStorage.setItem("qtdAnimaisDesbloqueados", String(qtdAnimaisDesbloqueados));
     }
 
@@ -267,7 +266,7 @@ function desbloquearAnimal(nome, botao) {
         botao.style.display = "block";
     }
 
-    // se tiver pelo menos 1 animal desbloqueado -> libera parágrafo de reset
+    // Se tiver pelo menos 1 animal desbloqueado -> libera parágrafo/comando de reset
     if (qtdAnimaisDesbloqueados >= 1 && !localStorage.getItem("paragrafoResetDesbloqueado")) {
         console.log("Parágrafo de reset desbloqueado.");
         alert("Você desbloqueou o comando reset!");
@@ -275,7 +274,7 @@ function desbloquearAnimal(nome, botao) {
         paragrafoReset.style.display = "block";
     }
     
-    // se tiver pelo menos 2 animais desbloqueados -> libera parágrafo/seção de conquistas
+    // Se tiver pelo menos 2 animais desbloqueados -> libera parágrafo/seção/comando de conquistas
     if (qtdAnimaisDesbloqueados >= 2 && !localStorage.getItem("secaoConquistasDesbloqueado")) {
         console.log("Parágrafo/Seção de conquistas desbloqueado.");
         alert("Você desbloqueou a seção de conquistas!");
@@ -287,15 +286,16 @@ function desbloquearAnimal(nome, botao) {
 
 // SEÇÃO DE CONQUISTAS
 function atualizarConquistas() {
-    const eras = {
+    const eras = { // O objeto "eras" é criado, que agrupa todas as informações necessárias por era
         paleozoico: {
-            total: 0,
-            desbloqueados: [],
-            elQtdTotal: document.getElementById("paleoTotalQtd"),
-            elQtdDesbloqueados: document.getElementById("paleoDesbloqueadosQtd"),
-            elQtdRestantes: document.getElementById("paleoRestantesQtd"),
-            elListaDesbloqueados: document.getElementById("paleoDesbloqueadosLista")
+            total: 0, // Conta quantos animais existem naquela era no objeto animais
+            desbloqueados: [], // Acumula os nomes dos animais dessa era que já foram desbloqueados
+            elQtdTotal: document.getElementById("paleoTotalQtd"), // Referência para o <span> no HTML onde é mostrado o total de animais na era
+            elQtdDesbloqueados: document.getElementById("paleoDesbloqueadosQtd"), // <span> que mostra quantos já foram desbloqueados
+            elQtdRestantes: document.getElementById("paleoRestantesQtd"), // <span> que mostra quantos ainda faltam
+            elListaDesbloqueados: document.getElementById("paleoDesbloqueadosLista") // <ul> onde você mostra a lista de nomes dos animais desbloqueados
         },
+        // Funciona da mesma forma aqui
         mesozoico: {
             total: 0,
             desbloqueados: [],
@@ -304,6 +304,7 @@ function atualizarConquistas() {
             elQtdRestantes: document.getElementById("mesoRestantesQtd"),
             elListaDesbloqueados: document.getElementById("mesoDesbloqueadosLista")
         },
+        // Funciona da mesma forma aqui também
         cenozoico: {
             total: 0,
             desbloqueados: [],
@@ -314,31 +315,32 @@ function atualizarConquistas() {
         }
     };
 
-    for (const chave in animais) {
-        if(!animais.hasOwnProperty(chave)) continue;
-        const animal = animais[chave];
-        const eraCat = animal.eraCategoria;
+    for (const chave in animais) { // Percorre todas as propriedades do objeto animais. Cada chave deve ser algum animal
+        if(!animais.hasOwnProperty(chave)) continue; // Garante que está pegando somente propriedades diretas de "animais". Se não for uma propriedade direta, pula pra próxima chave
+        const animal = animais[chave]; // Pega o objeto do animal em si e atribui ele a variável "animal"
+        const eraCat = animal.eraCategoria; // Lê a variável "eraCategoria" do animal
 
-        if (!eraCat || !eras[eraCat]) continue;
+        if (!eraCat || !eras[eraCat]) continue; // Se "eraCategoria" não existir, ignora e segue o loop
 
-        const grupo = eras[eraCat];
-        grupo.total++;
+        const grupo = eras[eraCat]; // Atribui o "eraCat" para "grupo"
+        grupo.total++; // Incrementa em 1 o total de animais daquela era
 
-        const chaveFlag = chave + "Desbloqueado";
-        const desbloqueado = localStorage.getItem(chaveFlag) === "true";
+        const chaveFlag = chave + "Desbloqueado"; // chaveFlag virará algo como "brontossauroDesbloqueado", etc.
+        const desbloqueado = localStorage.getItem(chaveFlag) === "true"; // Lê se esse animal foi marcado como desbloqueado
 
-        if (desbloqueado) {
-            grupo.desbloqueados.push(animal.nomeDoAnimal);
+        if (desbloqueado) { // Se o animal já foi desbloqueado, ele é adicionado a lista grupo.desbloqueados
+            grupo.desbloqueados.push(animal.nomeDoAnimal); // Exemplo: (eras.mesozoico.desbloqueados = ["Velociraptor, Brontossauro, etc."])
         }
     }
 
-    Object.keys(eras).forEach(eraKey => {
-        const grupo = eras[eraKey];
+    Object.keys(eras).forEach(eraKey => { // Object.keys.(eras) => ["paleozoico", "mesozoico", "cenozoico"]. "eraKey" vai assumir cada uma dessas strings
+        const grupo = eras[eraKey]; // Pega o bloco referente àquela era
 
-        const total = grupo.total;
-        const desbloq = grupo.desbloqueados.length;
-        const restantes = total - desbloq;
+        const total = grupo.total; // Quantidade total de animais definidos naquela era
+        const desbloq = grupo.desbloqueados.length; // Quantos desses animais já estão desbloqueados
+        const restantes = total - desbloq; // Quantos animais ainda faltam
 
+        // Cada if verifica se o elemento HTML existe antes de usar
         if (grupo.elQtdTotal) {
             grupo.elQtdTotal.textContent = String(total);
         }
@@ -349,18 +351,20 @@ function atualizarConquistas() {
             grupo.elQtdRestantes.textContent = String(restantes >= 0 ? restantes : 0);
         }
 
+        // Constrói a lista com os animais desbloqueados
         if (grupo.elListaDesbloqueados) {
-            grupo.elListaDesbloqueados.innerHTML = "";
+            grupo.elListaDesbloqueados.innerHTML = ""; // Remove qualquer <li> que estivesse lá anteriormente
 
+            // Caso não tenha nenhum animal desbloquado, fornece um pouco de feedback visual para o jogador
             if (desbloq === 0) {
-                const li = document.createElement("li");
-                li.textContent = "Nenhum ainda.";
-                grupo.elListaDesbloqueados.appendChild(li);
+                const li = document.createElement("li"); // Cria um <li>
+                li.textContent = "Nenhum ainda."; // Informa o usuário que ainda não há nenhum animal
+                grupo.elListaDesbloqueados.appendChild(li); // Adiciona o <li> na <ul> daquela era
             } else {
-                grupo.desbloqueados.forEach(nome => {
-                    const li = document.createElement("li");
-                    li.textContent = nome;
-                    grupo.elListaDesbloqueados.appendChild(li)
+                grupo.desbloqueados.forEach(nome => { // Percorre o array "grupo.desbloqueados", que contém nomes de animais
+                    const li = document.createElement("li"); // Cria um <li>
+                    li.textContent = nome; // Define "li.textContent = nome;"
+                    grupo.elListaDesbloqueados.appendChild(li) // Adiciona o <li> na <ul> daquela era
                 });
             }
         }
