@@ -24,6 +24,7 @@ const btnVelociraptor = document.getElementById("btnVelociraptor");
 const btnSinosauropteryx = document.getElementById("btnSinosauropteryx");
 const btnBrontossauro = document.getElementById("btnBrontossauro");
 const btnSmilodon = document.getElementById("btnSmilodon");
+const btnMamute = document.getElementById("btnMamute");
 
 // VARIÁVEIS EXTRAS SOBRE DESBLOQUEIOS DE ANIMAIS
 let smilodonIntervalId = null;
@@ -140,6 +141,50 @@ const animais = {
         dataDescoberta: "1837",
         descobridor: "Peter Wilhelm Lund",
         formacao: "Lagoa Santa, Brasil - La Brea, Estados Unidos - Caverna Port Kennedy, Estados Unidos"
+    },
+    mamute: {
+        eraCategoria: "cenozoico",
+        nomeDoAnimal: "Mamute",
+        descricaoBasica: "",
+        era: "Cenozoico",
+        periodo: "Pleistoceno Médio - Holoceno (300.000 e 10.000 anos atrás)",
+        regiao: "América do Norte e Sibéria",
+        altura: "2,67-3,49 metros até os ombros",
+        comprimento: "",
+        peso: "3,9-8,2 toneladas",
+        dieta: "Herbívoro",
+        reino: "Animalia",
+        Filo: "Chordata",
+        classe: "Mammalia",
+        ordem: "Proboscídeos",
+        familia: "Elefantíase",
+        genero: "Mammuthus",
+        especie: "Mammuthus primigenius",
+        dataDecoberta: "1728",
+        descobridor: "Hans Sloane",
+        formacao: "Permafrost"
+    },
+    megatherium: {
+        eraCategoria: "cenozoico",
+        nomeDoAnimal: "Megatherium",
+        descricaoBasica: "",
+        era: "Cenozoico",
+        periodo: "Plioceno superior - Pleistoceno superior (5 milhões e 12.000 anos atrás)",
+        regiao: "América do Norte e América do Sul",
+        altura: "",
+        comprimento: "",
+        peso: "",
+        dieta: "Herbívoro",
+        reino: "Animalia",
+        filo: "Chordata",
+        classe: "Mammalia",
+        ordem: "Xenarthra",
+        familia: "Megatheriidae",
+        genero: "Megatherium",
+        especie: "Megatherium americanum",
+        dataDescoberta: "1787",
+        descobridor: "Georges Cuvier",
+        formacao: "Rio Luján"
     }
 };
 
@@ -167,6 +212,9 @@ if (localStorage.getItem("brontossauroDesbloqueado") === "true") {
 }
 if (localStorage.getItem("smilodonDesbloqueado") === "true") {
     btnSmilodon.style.display = "block";
+}
+if (localStorage.getItem("mamuteDesbloqueado") === "true") {
+    btnMamute.style.display = "block";
 }
 // SEÇÃO DE PARÁGRAFOS E COMANDOS DESBLOQUEADOS
 if (localStorage.getItem("paragrafoResetDesbloqueado") === "true") {
@@ -204,7 +252,7 @@ campoComando.addEventListener("keydown", (event) => { // "Escuta" a tecla pressi
                 console.log("Descubra pelo menos um animal para desbloquear esse comando.");
                 mostrarErro2();
             }
-        } else if (comando === "conquistas" || comando == "conquista") { // Se o camando for "conquistas", serão mostradas todos os animais bloqueados e já desbloqueados
+        } else if (comando === "conquistas" || comando == "conquista") { // Se o comando for "conquistas", serão mostradas todos os animais bloqueados e já desbloqueados
             if (localStorage.getItem("paragrafoConquistasDesbloqueado") === "true" && localStorage.getItem("secaoConquistasDesbloqueado") === "true") { // Apenas vai funcionar se o usuário já tiver desbloquado o comando em questão
                 atualizarConquistas(); // Chama a função que atualiza as conquistas
                 secaoConquistas.style.display = "block";
@@ -286,7 +334,7 @@ function desbloquearAnimal(nome, botao) {
     }
     
     // Se tiver pelo menos 2 animais desbloqueados -> libera parágrafo/seção/comando de conquistas
-    if (qtdAnimaisDesbloqueados >= 2 && !localStorage.getItem("secaoConquistasDesbloqueado")) {
+    if (qtdAnimaisDesbloqueados >= 3 && !localStorage.getItem("secaoConquistasDesbloqueado")) {
         console.log("Parágrafo/Seção de conquistas desbloqueado.");
         alert("Você desbloqueou a seção de conquistas!");
         localStorage.setItem("paragrafoConquistasDesbloqueado", "true");
@@ -383,24 +431,27 @@ function atualizarConquistas() {
 }
 
 function iniciarTimerSmilodon() {
+    // Verifica se o Smilodon já foi desbloqueado
     const jaDesbloqueado = localStorage.getItem("smilodonDesbloqueado") === "true";
-    if (jaDesbloqueado) return;
+    if (jaDesbloqueado) return; // Se já foi desbloqueado, a função para imediatamente
 
-    if (qtdAnimaisDesbloqueados < 1) return;
-    if (smilodonIntervalId !== null) return;
+    if (qtdAnimaisDesbloqueados < 1) return; // Impede o timer de começar até que o usuário desbloqueie pelo menos um animal
+    if (smilodonIntervalId !== null) return; // Impede que existam múltiplos timers em execução
 
-    smilodonIntervalId = setInterval(() => {
-        const chance = Math.random();
+    // Timer
+    smilodonIntervalId = setInterval(() => { // Executa a função a cada 5 segundos, até parar
+        const chance = Math.random(); // Gera um número aleatório entre 0 e 1
 
-        if (chance < 1/20) {
+        if (chance < 1/50) { // Verifica a chance de 1 em 50 (2% de chance) a cada 5 segundos para desbloquear o animal
             console.log("Novo animal descoberto: Smilodon");
+            console.log("Chance de desbloquear Smilodon: 2% a cada 5 segundos");
             alert("Você desbloqueou um novo animal: Smilodon!");
             desbloquearAnimal("smilodon", btnSmilodon);
 
-            clearInterval(smilodonIntervalId);
-            smilodonIntervalId = null;
+            clearInterval(smilodonIntervalId); // Para o timer após desbloquear
+            smilodonIntervalId = null; // Zera a variável
         }
-    }, 1000);
+    }, 5000);
 }
 
 // PREENCHER OS DADOS DO ANIMAL
@@ -447,4 +498,7 @@ btnBrontossauro.addEventListener("click", () => {
 });
 btnSmilodon.addEventListener("click", () => {
     mostrarAnimal("smilodon");
+})
+btnMamute.addEventListener("click", () => {
+    mostrarAnimal("mamute");
 })
