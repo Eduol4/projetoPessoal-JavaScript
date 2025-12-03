@@ -23,14 +23,15 @@ const campoComando = document.getElementById("digiteComando");
 const btnVelociraptor = document.getElementById("btnVelociraptor");
 const btnSinosauropteryx = document.getElementById("btnSinosauropteryx");
 const btnBrontossauro = document.getElementById("btnBrontossauro");
-const btnSmilodon = document.getElementById("btnSmilodon");
+const btnSmilodonte = document.getElementById("btnSmilodonte");
 const btnMamute = document.getElementById("btnMamute");
 
 // VARIÁVEIS EXTRAS SOBRE DESBLOQUEIOS DE ANIMAIS
-let smilodonIntervalId = null;
+let smilodonteIntervalId = null;
 
 // VARIÁVEIS DAS INFORMAÇÕES DOS ANIMAIS
 const elNomeDoAnimal = document.getElementById("nomeDoAnimal");
+const elSignificado = document.getElementById("significado");
 const elDescricaoBasica = document.getElementById("descricaoBasica");
 const elEra = document.getElementById("era");
 const elPeriodo = document.getElementById("periodo");
@@ -56,6 +57,7 @@ const animais = {
     velociraptor: {
         eraCategoria: "mesozoico",
         nomeDoAnimal: "Velociraptor",
+        significado: "Ladrão veloz/Agarrador veloz",
         descricaoBasica: "Um pequeno terópode carnívoro, ágil e (possivelmente) inteligente, famoso por suas garras em forma de foice.",
         era: "Mesozoico",
         periodo: "Cretáceo Superior (84-85 milhões de anos atrás)",
@@ -78,6 +80,7 @@ const animais = {
     sinosauropteryx: {
         eraCategoria: "mesozoico",
         nomeDoAnimal: "Sinosauropteryx",
+        significado: "Primeira pena de dragão chinês",
         descricaoBasica: "Um pequeno dinossauro terópode coberto por penas simples, conhecido por ser o primeiro dinossauro não aviário descoberto com evidências claras de plumagem.",
         era: "Mesozoico",
         periodo: "Cretáceo Inferior (124,6-122 milhões de anos atrás)",
@@ -100,6 +103,7 @@ const animais = {
     brontossauro: {
         eraCategoria: "mesozoico",
         nomeDoAnimal: "Brontossauro",
+        significado: "Lagarto trovão",
         descricaoBasica: "Um grande dinossauro herbívoro, conhecido por seu pescoço longo e cauda longa, que viveu durante o final do período Jurássico.",
         era: "Mesozoico",
         periodo: "Jurássico Superior (156,3-146,8 milhões de anos atrás)",
@@ -120,9 +124,10 @@ const animais = {
         formacao: "Formação Morrison, Estados Unidos"
     },
     // CENOZÓICO
-    smilodon: {
+    smilodonte: {
         eraCategoria: "cenozoico",
-        nomeDoAnimal: "Smilodon",
+        nomeDoAnimal: "Smilodonte",
+        significado: "Dente em forma de lâmina de dois gumes",
         descricaoBasica: "Um grande felino conhecido por seus longos caninos superiores em forma de sabre, que foi contemporâneo com os seres humanos.",
         era: "Cenozoico",
         periodo: "Pleistoceno inferior - Holoceno inferior (2,5 milhões e 10 mil anos atrás)",
@@ -145,6 +150,7 @@ const animais = {
     mamute: {
         eraCategoria: "cenozoico",
         nomeDoAnimal: "Mamute",
+        significado: "Mamute-lanoso",
         descricaoBasica: "",
         era: "Cenozoico",
         periodo: "Pleistoceno Médio - Holoceno (300.000 e 10.000 anos atrás)",
@@ -166,7 +172,8 @@ const animais = {
     },
     megatherium: {
         eraCategoria: "cenozoico",
-        nomeDoAnimal: "Megatherium",
+        nomeDoAnimal: "Megatério",
+        significado: "Besta gigante",
         descricaoBasica: "",
         era: "Cenozoico",
         periodo: "Plioceno superior - Pleistoceno superior (5 milhões e 12.000 anos atrás)",
@@ -184,12 +191,12 @@ const animais = {
         especie: "Megatherium americanum",
         dataDescoberta: "1787",
         descobridor: "Georges Cuvier",
-        formacao: "Rio Luján"
+        formacao: "Rio"
     }
 };
 
 // CASO O JOGADOR JÁ TENHA UM ANIMAL DESBLOQUEADO, O SORTEIO CONTINUA VALENDO MESMO APÓS RECARREGAR A PÁGINA
-iniciarTimerSmilodon();
+iniciarTimerSmilodonte();
 
 // BOTÃO DE "AJUDA"
 function alternarAjuda() {
@@ -210,11 +217,14 @@ if (localStorage.getItem("sinosauropteryxDesbloqueado") === "true") {
 if (localStorage.getItem("brontossauroDesbloqueado") === "true") {
     btnBrontossauro.style.display = "block";
 }
-if (localStorage.getItem("smilodonDesbloqueado") === "true") {
-    btnSmilodon.style.display = "block";
+if (localStorage.getItem("smilodonteDesbloqueado") === "true") {
+    btnSmilodonte.style.display = "block";
 }
 if (localStorage.getItem("mamuteDesbloqueado") === "true") {
     btnMamute.style.display = "block";
+}
+if (localStorage.getItem("megaterioDesbloqueado") === "true") {
+    btnMegaterio.style.display = "block";
 }
 // SEÇÃO DE PARÁGRAFOS E COMANDOS DESBLOQUEADOS
 if (localStorage.getItem("paragrafoResetDesbloqueado") === "true") {
@@ -228,6 +238,7 @@ if (localStorage.getItem("paragrafoConquistasDesbloqueado") === "true") {
 campoComando.addEventListener("keydown", (event) => { // "Escuta" a tecla pressionada no campo de comando
     if (event.key === "Enter") { // O código só roda o código se o usuário pressionar Enter
         const comando = (campoComando.value || '').trim().toLowerCase(); // Lê, limpa e normaliza o comando (tudo que for digitado será interpretado e normalizados com letras minúsculas)
+
         if (comando === "ajuda") { // Se o comando for "ajuda", a seção ajuda será mostrada e um Sinosauropteryx será desbloqueado
             secaoAjuda.style.display = "block";
             secaoOpcao.style.display = "none";
@@ -329,8 +340,9 @@ function desbloquearAnimal(nome, botao) {
         paragrafoReset.style.display = "block";
     }
 
+    // Se tiver pelo menos 1 animal desbloqueado -> Inicia o timer para o desbloqueio do Smilodonte
     if (qtdAnimaisDesbloqueados >= 1) {
-        iniciarTimerSmilodon();
+        iniciarTimerSmilodonte();
     }
     
     // Se tiver pelo menos 2 animais desbloqueados -> libera parágrafo/seção/comando de conquistas
@@ -430,26 +442,26 @@ function atualizarConquistas() {
     });
 }
 
-function iniciarTimerSmilodon() {
-    // Verifica se o Smilodon já foi desbloqueado
-    const jaDesbloqueado = localStorage.getItem("smilodonDesbloqueado") === "true";
+function iniciarTimerSmilodonte() {
+    // Verifica se o Smilodonte já foi desbloqueado
+    const jaDesbloqueado = localStorage.getItem("smilodonteDesbloqueado") === "true";
     if (jaDesbloqueado) return; // Se já foi desbloqueado, a função para imediatamente
 
     if (qtdAnimaisDesbloqueados < 1) return; // Impede o timer de começar até que o usuário desbloqueie pelo menos um animal
-    if (smilodonIntervalId !== null) return; // Impede que existam múltiplos timers em execução
+    if (smilodonteIntervalId !== null) return; // Impede que existam múltiplos timers em execução
 
     // Timer
-    smilodonIntervalId = setInterval(() => { // Executa a função a cada 5 segundos, até parar
+    smilodonteIntervalId = setInterval(() => { // Executa a função a cada 5 segundos, até parar
         const chance = Math.random(); // Gera um número aleatório entre 0 e 1
 
         if (chance < 1/50) { // Verifica a chance de 1 em 50 (2% de chance) a cada 5 segundos para desbloquear o animal
-            console.log("Novo animal descoberto: Smilodon");
-            console.log("Chance de desbloquear Smilodon: 2% a cada 5 segundos");
-            alert("Você desbloqueou um novo animal: Smilodon!");
-            desbloquearAnimal("smilodon", btnSmilodon);
+            console.log("Novo animal descoberto: Smilodonte");
+            console.log("Chance de desbloquear Smilodonte: 2% a cada 5 segundos");
+            alert("Você desbloqueou um novo animal: Smilodonte!");
+            desbloquearAnimal("smilodonte", btnSmilodonte);
 
-            clearInterval(smilodonIntervalId); // Para o timer após desbloquear
-            smilodonIntervalId = null; // Zera a variável
+            clearInterval(smilodonteIntervalId); // Para o timer após desbloquear
+            smilodonteIntervalId = null; // Zera a variável
         }
     }, 5000);
 }
@@ -463,6 +475,7 @@ function mostrarAnimal(chave) {
     secaoOpcao.style.display = "block";
 
     elNomeDoAnimal.innerText = animal.nomeDoAnimal;
+    elSignificado.innerText = animal.significado;
     elDescricaoBasica.innerText = animal.descricaoBasica;
     elEra.innerText = animal.era;
     elPeriodo.innerText = animal.periodo;
@@ -496,8 +509,8 @@ btnSinosauropteryx.addEventListener("click", () => {
 btnBrontossauro.addEventListener("click", () => {
     mostrarAnimal("brontossauro");
 });
-btnSmilodon.addEventListener("click", () => {
-    mostrarAnimal("smilodon");
+btnSmilodonte.addEventListener("click", () => {
+    mostrarAnimal("smilodonte");
 })
 btnMamute.addEventListener("click", () => {
     mostrarAnimal("mamute");
