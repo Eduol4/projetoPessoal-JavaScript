@@ -515,3 +515,6 @@ btnSmilodonte.addEventListener("click", () => {
 btnMamute.addEventListener("click", () => {
     mostrarAnimal("mamute");
 })
+btnMegaterio.addEventListener("click", () => { 
+    mostrarAnimal("megaterio");
+})

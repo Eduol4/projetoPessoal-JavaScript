@@ -14,6 +14,6 @@
 
 28.10.2025 -> Adicionadas mensagens de erros para situações específicas. Bloqueadas caixas de informações para espécies ainda não desbloqueadas. Mais comentários adicionados pra facilitar a leitura do código;
 
-01.12.2005 -> Adicionado timer e chance para o desbloqueio do Smilodon;
+01.12.2025 -> Adicionado timer e chance para o desbloqueio do Smilodon;
 
 02.12.2025 -> Adicionados Mamute e Megatherium;
