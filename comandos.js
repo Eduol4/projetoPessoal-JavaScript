@@ -345,7 +345,7 @@ function desbloquearAnimal(nome, botao) {
         iniciarTimerSmilodonte();
     }
     
-    // Se tiver pelo menos 2 animais desbloqueados -> libera parágrafo/seção/comando de conquistas
+    // Se tiver pelo menos 3 animais desbloqueados -> libera parágrafo/seção/comando de conquistas
     if (qtdAnimaisDesbloqueados >= 3 && !localStorage.getItem("secaoConquistasDesbloqueado")) {
         console.log("Parágrafo/Seção de conquistas desbloqueado.");
         alert("Você desbloqueou a seção de conquistas!");
